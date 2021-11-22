@@ -66,7 +66,7 @@ public class GildedRoseTest {
 		List<Item> items = inn.getItems();
 		int quality = items.get(0).getQuality();
 		
-		//assert quality has decreased by one
+		//assert quality has decreased by 5
 		assertEquals("Failed quality for Mana Cake", 1, quality);
 	}
 	
@@ -84,7 +84,51 @@ public class GildedRoseTest {
 		List<Item> items = inn.getItems();
 		int quality = items.get(0).getQuality();
 		
-		//assert quality has decreased by one
+		//assert quality has increased by 4
 		assertEquals("Failed quality for Aged Brie", 4, quality);
+	}
+	
+	@Test
+	public void testBackPasses() {
+		//create an inn, add an item, and simulate 3 days
+		GildedRose inn = new GildedRose();
+		inn.setItem(new Item("Backstage passes to a TAFKAL80ETC concert", 11, 25));;
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		
+		//access a list of items, get the quality of the one set
+		List<Item> items = inn.getItems();
+		int quality = items.get(0).getQuality();
+		
+		//assert quality has increased by 5
+		assertEquals("Failed 1st quality check for Backstage passes", 30, quality);
+		
+		//simulate 4 more days
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		quality = items.get(0).getQuality();
+		
+		//assert quality has increased by 9
+		assertEquals("Failed 2nd quality check for Backstage passes", 39, quality);
+		
+		//simulate 4 more days
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		quality = items.get(0).getQuality();
+		
+		//assert quality has increased by 12 and hit max value of 50
+		assertEquals("Failed 3nd quality check for Backstage passes", 50, quality);
+		
+		//simulate 1 more days
+		inn.oneDay();
+		
+		quality = items.get(0).getQuality();
+		//assert quality has increased to 0
+		assertEquals("Failed 4nd quality check for Backstage passes", 0, quality);
 	}
 }
