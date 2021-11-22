@@ -52,4 +52,39 @@ public class GildedRoseTest {
 		assertEquals("Failed quality for Conjured Mana Cake", 5, cakeQuality);
 	}
 	
+	@Test
+	public void testDoubleDegradation() {
+		//create an inn, add an item, and simulate 4 days
+		GildedRose inn = new GildedRose();
+		inn.setItem(new Item("Conjured Mana Cake", 3, 6));;
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		
+		//access a list of items, get the quality of the one set
+		List<Item> items = inn.getItems();
+		int quality = items.get(0).getQuality();
+		
+		//assert quality has decreased by one
+		assertEquals("Failed quality for Mana Cake", 1, quality);
+	}
+	
+	
+	@Test
+	public void testAgedBrie() {
+		//create an inn, add an item, and simulate 3 days
+		GildedRose inn = new GildedRose();
+		inn.setItem(new Item("Aged Brie", 2, 0));;
+		inn.oneDay();
+		inn.oneDay();
+		inn.oneDay();
+		
+		//access a list of items, get the quality of the one set
+		List<Item> items = inn.getItems();
+		int quality = items.get(0).getQuality();
+		
+		//assert quality has decreased by one
+		assertEquals("Failed quality for Aged Brie", 4, quality);
+	}
 }
